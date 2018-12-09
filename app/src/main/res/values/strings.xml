@@ -1,0 +1,36 @@
+<resources>
+    <!-- Common strings -->
+    <string name="common_ok">OK</string>
+    <string name="common_yes">Yes</string>
+    <string name="common_no">No</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_remove">Remove</string>
+
+    <string name="app_name">News Vault</string>
+    <string name="menu_night_mode">Night mode</string>
+    <string name="menu_night_mode_system">Follow system</string>
+    <string name="menu_night_mode_day">Day (always)</string>
+    <string name="menu_night_mode_night">Night (always)</string>
+    <string name="menu_night_mode_auto">Auto</string>
+    <string name="search">Search</string>
+    <string name="toggle">Toggle</string>
+    <string name="share">Share</string>
+    <string name="save_for_offline">Save</string>
+    <string name="wall_street_journal">News Vault - WSJ</string>
+    <string name="nyt_title">News Vault - NY Times</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="share_original">Share original source</string>
+    <string name="outline">Open outline version</string>
+    <string name="sync_now">Sync now</string>
+    <string name="nyt_mobile">NY Times Mobile Site</string>
+    <string name="wsj_mobile_site">Wall St. Journal Mobile Site</string>
+    <string name="downloads">Downloads</string>
+    <string name="view_more">View all</string>
+    <string name="customize">Customize</string>
+    <string name="saved">Saved</string>
+    <string name="dialog_save_prompt">Save this article?</string>
+    <string name="done">Done</string>
+    <string name="select_all">Select all</string>
+    <string name="unselect_all">Unselect all</string>
+</resources>

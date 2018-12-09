@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/subscriptions"
+        android:title="Subscriptions">
+        <menu>
+
+    <item
+        android:id="@+id/nyt_mobile_menu"
+        android:icon="@drawable/ic_discuss"
+        android:title="@string/nyt_mobile" />
+
+        </menu>
+    </item>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/manage_subscriptions"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Manage Subscriptions" />
+
+        </menu>
+    </item>
+
+</menu>

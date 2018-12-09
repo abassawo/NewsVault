@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="abassawo.c4q.nyc.flickrfeed.DetailActivity">
+
+
+    <item android:id="@+id/share_content"
+        android:title="@string/share"
+        app:showAsAction="ifRoom"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"/>
+
+    <item android:id="@+id/save_article_option"
+        android:icon="@drawable/ic_done"
+        android:title="@string/save_for_offline"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/outline"
+        android:title="@string/outline"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/open_article_browser"
+        android:title="@string/open_in_browser"
+        app:showAsAction="never"/>
+</menu>

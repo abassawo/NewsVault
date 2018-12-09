@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/customize_select_all"
+        android:title="@string/select_all"/>
+
+    <item
+        android:id="@+id/customize_unselect_all"
+        android:title="@string/unselect_all"/>
+
+    <item
+        android:id="@+id/customize_done"
+        android:title="@string/done"/>
+</menu>

@@ -1,0 +1,220 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'spoon'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: 'version.gradle'
+apply from: 'coverage.gradle'
+
+ext.localProperties = new Properties()
+def localPropertiesFile = project.rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    ext.localProperties.load(localPropertiesFile.newDataInputStream())
+}
+ext.getLocalProperty = { propertyName ->
+    def property = localProperties.getProperty(propertyName)
+    return property == null ? "" : property
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId "com.abasscodes.newsy"
+        minSdkVersion 17
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        renderscriptTargetApi 27
+        renderscriptSupportModeEnabled false
+
+        testInstrumentationRunner "com.abasscodes.newsy.CustomTestRunner"
+    }
+
+//    dataBinding {
+//        enabled = true
+//    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+            storePassword "password"
+            keyAlias "debug"
+            keyPassword "password"
+        }
+
+        release {
+            def fileName = getLocalProperty("signing_file")
+            if (!fileName.isEmpty()) {
+                storeFile file(fileName)
+                storePassword getLocalProperty("signing_password")
+                keyAlias getLocalProperty("signing_alias")
+                keyPassword getLocalProperty("signing_key_password")
+            }
+            return true
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+
+            buildConfigField "boolean", "LOG_CONSOLE", "true"
+            buildConfigField "boolean", "REPORT_CRASH", "false"
+        }
+
+        qa {
+            initWith(buildTypes.debug)
+
+            applicationIdSuffix ".qa"
+            versionNameSuffix versionSuffix()
+
+            buildConfigField "boolean", "LOG_CONSOLE", "true"
+            buildConfigField "boolean", "REPORT_CRASH", "true"
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_CONSOLE", "false"
+            buildConfigField "boolean", "REPORT_CRASH", "true"
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
+//    // Test helpers
+//    testImplementation "android.arch.persistence.room:testing:$room_version"
+    // Support libraries
+    def supportVersion = "27.0.2"
+    implementation "com.android.support:support-v4:$supportVersion"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    def lifecycle_version = "1.1.1"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    // alternatively - just ViewModel
+    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
+
+    // use -ktx for Kotlin
+
+    // alternatively - just LiveData
+    implementation "android.arch.lifecycle:livedata:$lifecycle_version"
+
+    // alternatively - Lifecycles only (no ViewModel or LiveData).
+
+    //     Support library depends on this lightweight import
+    implementation "android.arch.lifecycle:runtime:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
+
+    // alternately - if using Java8, use the following instead of compiler
+    implementation "android.arch.lifecycle:common-java8:$lifecycle_version"
+
+    // optional - ReactiveStreams support for LiveData
+    implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version"
+
+    // optional - Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:$lifecycle_version"
+
+    // Jake Wharton/Square
+    def retrofitVersion = "2.3.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    //rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    def okhttpVersion = "3.9.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    //dagger
+    implementation 'com.google.dagger:dagger:2.10'
+//    apt 'com.google.dagger:dagger-compiler:2.10'
+
+    //imaging
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //rxjava
+    implementation "io.reactivex.rxjava2:rxjava:2.1.8"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    //     LeakCanary
+    def leakCanaryVersion = "1.5.4"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    qaImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+
+    // Common test dependencies
+    def junitLib = "junit:junit:4.12"
+    def mockitoVersion = "2.13.0"
+    def mockitoLib = "org.mockito:mockito-core:$mockitoVersion"
+    def supportAnnotationLib = "com.android.support:support-annotations:$supportVersion"
+
+    // Unit tests
+    testImplementation junitLib
+    testImplementation mockitoLib
+    testImplementation supportAnnotationLib
+
+    // UI tests
+    androidTestImplementation junitLib
+    androidTestImplementation mockitoLib
+    androidTestImplementation supportAnnotationLib
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    def androidTestVersion = "1.0.1"
+    androidTestImplementation "com.android.support.test:runner:$androidTestVersion"
+    androidTestImplementation "com.android.support.test:rules:$androidTestVersion"
+    def espressoVersion = "3.0.1"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    implementation 'com.android.support:cardview-v7:27.0.2'
+
+    implementation 'fr.tvbarthel.blurdialogfragment:lib:2.1.5'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    qaImplementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    debugImplementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}
+
+spoon {
+    debug = true
+    adbTimeout = 30
+
+    if (project.hasProperty('spoonClassName')) {
+        className = project.spoonClassName
+    }
+
+    if (project.hasProperty('spoonMethodName')) {
+        methodName = project.spoonMethodName
+    }
+
+    grantAllPermissions = true
+}
+repositories {
+  mavenCentral()
+}
