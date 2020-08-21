@@ -40,7 +40,7 @@ import kotlinx.android.synthetic.main.activity_main.swipeRefresh
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : BaseActivity(), View.OnClickListener {
-  lateinit var viewModel: DashboardCardViewModel
+  private lateinit var viewModel: DashboardCardViewModel
   private val adapter = DashboardAdapter()
 
   override val layoutResourceId: Int get()=  R.layout.activity_main
@@ -152,19 +152,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
       override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
         if (newState == SCROLL_STATE_IDLE) {
-          val layoutManager = recyclerView!!.layoutManager as LinearLayoutManager
-          val position = layoutManager.findLastCompletelyVisibleItemPosition()
-          val view = layoutManager.findViewByPosition(position)
-          view?.requestFocus()
         }
       }
     })
-    recyclerview.setItemViewCacheSize(3)
     val layoutManager = LinearLayoutManager(this)
     recyclerview.layoutManager = layoutManager
-    layoutManager.initialPrefetchItemCount = 4
     recyclerview.adapter = adapter
-    recyclerview.setHasFixedSize(true)
     val callback = SimpleItemTouchHelperCallback(adapter)
     val touchHelper = ItemTouchHelper(callback)
     touchHelper.attachToRecyclerView(recyclerview)
@@ -172,8 +165,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
   fun setupToolbar(toolbar: Toolbar) {
     setSupportActionBar(toolbar)
-    getSupportActionBar()!!.setHomeAsUpIndicator(R.drawable.ic_menu)
-    getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+    supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
+    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
   }
 
   override fun onClick(v: View) {

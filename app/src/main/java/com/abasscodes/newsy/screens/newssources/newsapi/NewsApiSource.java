@@ -5,7 +5,7 @@ public enum NewsApiSource {
 
     WSJ("WSJ", "the-wall-street-journal"),
     BBC("BBC", "bbc-news"),
-    ALJ("Al Jazeera", "a;-jazeera-english"),
+//    ALJ("Al Jazeera", "a;-jazeera-english"),
     CNN("CNN", "cnn"),
     ABC("ABC", "abc-news"),
     BLOOM("Bloomberg", "bloomberg"),
