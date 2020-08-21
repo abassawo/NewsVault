@@ -27,10 +27,6 @@ abstract class DashboardView(context: Context) : FrameLayout(context) {
     view = inflater.inflate(R.layout.dashboard_view, this, false)
     addView(view)
     layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-    layoutManager.initialPrefetchItemCount = 4
-    view.recyclerView.setLayoutManager(layoutManager)
-    view.recyclerView.setHasFixedSize(true)
-
     view.toolbar.inflateMenu(R.menu.menu_dashboard)
     snapHelper.attachToRecyclerView(recyclerView)
   }

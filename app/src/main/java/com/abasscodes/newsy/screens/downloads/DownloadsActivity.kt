@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class DownloadsActivity : BaseActivity() {
 
-  private var adapter: DownloadsAdapter? = null
 
   override val layoutResourceId: Int get() = R.layout.activity_main
 
@@ -25,15 +24,14 @@ class DownloadsActivity : BaseActivity() {
     val db = DatabaseHelper(this).writableDatabase
     val serializer = Serializer.getInstance(db)
     val mItems = serializer.faves
-    adapter = DownloadsAdapter(mItems)
     setSupportActionBar(toolbar)
     supportActionBar!!.setTitle(getString(R.string.app_name) + ": Saved items")
     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     customizeDashboardButton.setVisibility(View.GONE)
     recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-    recyclerView.setLayoutManager(LinearLayoutManager(this))
-    recyclerView.setAdapter(adapter)
-    swipeRefresh.setEnabled(false)
+    recyclerView.layoutManager = LinearLayoutManager(this)
+    recyclerView.adapter = DownloadsAdapter(mItems)
+    swipeRefresh.isEnabled = false
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {

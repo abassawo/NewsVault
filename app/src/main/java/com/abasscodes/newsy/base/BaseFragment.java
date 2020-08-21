@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.abasscodes.newsy.NewsyApplication;
 
-public abstract class BaseFragment extends Fragment implements BaseContract.View {
+public abstract class BaseFragment extends Fragment {
 
   @Override
   public final View onCreateView(LayoutInflater inflater,
@@ -27,7 +27,6 @@ public abstract class BaseFragment extends Fragment implements BaseContract.View
 
   protected abstract int getLayoutResourceId();
 
-  @Override
   public void showError() {
     Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG)
       .show();
